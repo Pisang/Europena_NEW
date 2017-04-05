@@ -1,10 +1,10 @@
 import logging
 import unicodedata
 from collections import defaultdict
-from stop_words import get_stop_words
 
 import pandas as pd
 from bs4 import BeautifulSoup
+from stop_words import get_stop_words
 
 
 class DocManager:
@@ -33,6 +33,8 @@ class DocManager:
 
         for row in csv_file.columns.values:
             for item in csv_file[row]:
+                if type(item) == float:
+                    item = str(int(item))
                 for token in item.split():
                     frequency[token] += 1
 
@@ -47,7 +49,6 @@ class DocManager:
     def do_clinsing_csv(self, csv_file):
 
         logging.info('startin clinsing to a csv file')
-        # todo: do tokenizing, stopwords, lower case, normalize, strip, remove single words,
         # put it into csv
 
         stop_words = []

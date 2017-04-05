@@ -9,8 +9,8 @@ from HardcodedRules import HardcodedRules
 
 
 class Main:
-    original_file = 'metadata_translation_v2'
-    #original_file = 'Test'
+    # original_file = 'metadata_translation_v2'
+    original_file = 'metadata_translation_v2_reduced'
     docManager = DocManager()
 
     def do_doc2vec(self):
@@ -77,14 +77,14 @@ def main():
 
         ######################## do Stuff
         ### prepare file: reduce columns, clinsing, ...
-        #Main.prepare_Document(file_path)
+        Main.prepare_Document(file_path)
 
         ### apply hardcoded rules
-        #filename = file_path+Main.original_file+'_clean.csv'
-        #clean_file = pd.read_csv(filename, sep=";", encoding="utf-8", index_col='id')
-        #Main.apply_hardcoded_Rules(clean_file, file_path)
+        filename = file_path + Main.original_file + '_clean.csv'
+        clean_file = pd.read_csv(filename, sep=";", encoding="utf-8", index_col='id')
+        Main.apply_hardcoded_Rules(clean_file, file_path)
 
-        #Main.make_groundtruth_dense(file_path)
+        Main.make_groundtruth_dense(file_path)
 
 
         doc2vec_file_path = file_path+'doc2vec_files'
