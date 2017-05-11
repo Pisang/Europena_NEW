@@ -2,9 +2,8 @@ import csv
 from os import path
 from random import shuffle
 
-import numpy
-
 import gensim.models.doc2vec
+import numpy
 from sklearn.linear_model import LogisticRegression
 
 
@@ -43,7 +42,7 @@ class Doc2vec_clustering:
         for i in range(len(sent_array)):
             feature_arrays[i] = model.docvecs[sent_array.__getitem__(i).__getitem__(1)]
 
-        # For evaluation: split groundtrutz into trainings- and test- set (1/4 : 3/4)
+        # For evaluation: split groundtruth into trainings- and test- set (1/4 : 3/4)
         length_3_4 = int(len(feature_arrays) / 4 * 3 + 1)
         length_1_4 = int(len(feature_arrays) / 4 + 1)
         train_arrays = numpy.zeros((length_3_4, self.featuresize))
@@ -68,12 +67,6 @@ class Doc2vec_clustering:
         classifier.fit(train_arrays, train_labels)
 
         prediction_arr = classifier.predict(test_arrays)
-
-        pred_index = 0
-        for j in range(len(test_labels)):
-            # print('prediction: ', prediction_arr[j], ' --- truth: ', test_labels[j])
-            if prediction_arr[j] != b'irish':
-                pred_index += 1
 
         score = classifier.score(test_arrays, test_labels)
         print('Test score: ', round(score*100, 2), '%')
@@ -132,7 +125,7 @@ class LabeledLineSentence_v2(object):
                     else:
                         label = column
 
-                        ## count from 1 - n for every genre
+                        ## count from 1 - n for every genre seperately
                         if label == 'classical':
                             classical_index = classical_index + 1
                             item_no = classical_index

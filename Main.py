@@ -43,6 +43,7 @@ class Main:
         clean_file = Main.docManager.do_clinsing_csv(reduced_file)
         file_path_clean = file_path + Main.original_file + '_clean.csv'
 
+        # write clean file to csv
         clean_file.to_csv(file_path_clean, sep=';', encoding='utf-8', index_label='id')
 
     def apply_hardcoded_Rules(dataframe, file_path):
@@ -54,6 +55,11 @@ class Main:
         rules.applyRules(metadata_file_path, groundtruth_file_path)
 
     def make_groundtruth_dense(file_path):
+        '''
+        Remove each row from the groundtruth.csv which has no 'known genre'. 
+        This way a dense ground truth is produced. 
+        :return: CSV file containing documents where the genre can be determined from the hardcoded rules.
+        '''
         filename_gt = file_path + Main.original_file + '_groundtruth.csv'
 
         sparce_groundtruth = pd.read_csv(filename_gt, sep=';', encoding="utf-8", index_col='id')
@@ -75,11 +81,14 @@ def main():
     with open(filename, 'r', encoding="UTF-8") as mypath:
         file_path = mypath.readline()
 
-        ######################## do Stuff
+        ########################################################################
+        #########################  do Stuff   ##################################
+        ########################################################################
+
         ### prepare file: reduce columns, clinsing, ...
         Main.prepare_Document(file_path)
 
-        ### apply hardcoded rules
+        ### apply hardcoded rules to get a groundtruth out of the data
         filename = file_path + Main.original_file + '_clean.csv'
         clean_file = pd.read_csv(filename, sep=";", encoding="utf-8", index_col='id')
         Main.apply_hardcoded_Rules(clean_file, file_path)
@@ -90,9 +99,11 @@ def main():
         doc2vec_file_path = file_path+'doc2vec_files'
         cluster = Doc2vec_clustering()
 
-        # cluster.build_Model(doc2vec_file_path) - old tutorial version
+        # perform dec2vec clustering
         cluster.do_clustering_v2(doc2vec_file_path)
 
 
-### entrypoint
+########################################################################
+#########################  Entrypoint  #################################
+########################################################################
 main()

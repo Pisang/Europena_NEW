@@ -47,7 +47,16 @@ class DocManager:
         return csv_file
 
     def do_clinsing_csv(self, csv_file):
-
+        '''
+        Perform clinsing on given csv_file. 
+         - remove stopwords
+         - force lower case
+         - normalize (remove umlaute)
+         - remove words that appear only once
+         
+        :param csv_file: 
+        :return: clean csv file
+        '''
         logging.info('startin clinsing to a csv file')
         # put it into csv
 
